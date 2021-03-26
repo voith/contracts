@@ -132,10 +132,13 @@ abstract contract IVaultHandler is
   );
 
   /// @notice An event emitted when the reward handler contract is updated
-  event NewRewardHandler(address indexed _owner, address _rewardHandler);
+  event NewRewardHandler(
+    address indexed _owner,
+    address indexed _rewardHandler
+  );
 
   /// @notice An event emitted when the treasury contract is updated
-  event NewTreasury(address indexed _owner, address _tresury);
+  event NewTreasury(address indexed _owner, address indexed _treasury);
 
   /// @notice An event emitted when a vault is created
   event VaultCreated(address indexed _owner, uint256 indexed _id);
@@ -177,7 +180,7 @@ abstract contract IVaultHandler is
   );
 
   /// @notice An event emitted when a erc20 token is recovered
-  event Recovered(address _token, uint256 _amount);
+  event Recovered(address indexed _token, uint256 _amount);
 
   /**
    * @notice Constructor
@@ -323,9 +326,13 @@ abstract contract IVaultHandler is
    * @param _rewardHandler address
    * @dev Only owner can call it
    * @dev if not set, rewards are not given
+   * @dev this should only happen once as if it's removed rewards will be lost
    */
   function setRewardHandler(address _rewardHandler) external virtual onlyOwner {
-    //TODO: this should only happen once as if it's removed rewards will be lost
+    require(
+      address(rewardHandler) == address(0),
+      "VaultHandler::setRewardHandler: can't update an already set reward handler"
+    );
     rewardHandler = IRewardHandler(_rewardHandler);
     emit NewRewardHandler(msg.sender, _rewardHandler);
   }

@@ -309,7 +309,7 @@ contract LiquidityReward is Ownable, AccessControl, ReentrancyGuard, Pausable {
   /**
    * @notice Transfers to the caller the current amount of rewards tokens earned.
    * @dev updates rewards on call
-   * @dev from the total reward a vestingRatio amount is locked into vesting and the rest is transfered
+   * @dev some percentage (vestingRatio) of the total reward amount is locked into vesting and the rest is transfered
    * @dev if vesting period has passed transfer all rewards
    */
   function getReward() public nonReentrant updateReward(msg.sender) {

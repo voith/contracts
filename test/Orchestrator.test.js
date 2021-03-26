@@ -223,6 +223,12 @@ describe("Orchestrator Contract", async function () {
 			rewardTokenInstance.address
 		);
 		expect(rewardTokenInstance.address).to.eq(await ethVaultInstance.rewardHandler());
+
+		await expect(
+			orchestratorInstance.setRewardHandler(ethVaultInstance.address, rewardTokenInstance.address)
+		).to.be.revertedWith(
+			"VaultHandler::setRewardHandler: can't update an already set reward handler"
+		);
 	});
 
 	it("...should pause the Vault", async () => {
