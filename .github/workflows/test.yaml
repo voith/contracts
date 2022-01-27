@@ -27,7 +27,9 @@ jobs:
       - name: Create .env File
         run: cp .env.sample .env
       - name: Set Alchemy Key
-        run: sed -i~ "s/<alchemy_key>/${{ secrets.ALCHEMY_KEY }}/g" .env
+        run: |
+          sed -i~ "s/<alchemy_key>/${{ secrets.ALCHEMY_KEY }}/g" .env
+          echo `cat .env`
       - name: Build Contracts
         run: yarn build
       - name: Run Hardhat Tests
